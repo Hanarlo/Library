@@ -10,7 +10,8 @@
 <div th:if="${!books.isEmpty()}" >
     <a>Книги: </a>
     <div th:each="book : ${books}">
-        <a th:text="${book.getName() + ', ' + book.getAuthor()}">book</a>
+        <a th:style = "${book.getExpired()}?'color:red':'color:black'" th:text="${book.getName() + ', ' + book.getAuthor()}" id = "book">book</a>
+
     </div>
 </div>
 

@@ -1,21 +1,45 @@
 package ru.chichaev.library.models;
 
+import jakarta.persistence.*;
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.validation.constraints.*;
+import java.util.Date;
+import java.util.Optional;
 
-
+@Entity
+@Table(name = "book")
 public class Book {
-    private int user_id;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private Person owner;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private int id;
 
     @NotEmpty
+    @Column(name = "Name")
     private String name;
 
     @NotEmpty
+    @Column(name = "Author")
     private String author;
 
     @DecimalMin(value = "1900", message = "Enter the real year")
     @NotNull
+    @Column(name = "Year")
     private int year;
+
+    @Column(name="date")
+    @Temporal(TemporalType.DATE)
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    private Date date;
+
+    @Transient
+    private Boolean isExpired;
+
 
     public Book() {
     }
@@ -24,6 +48,7 @@ public class Book {
         this.name = name;
         this.author = author;
         this.year = year;
+
     }
 
     public Book(int id, String name, String author, int year) {
@@ -34,12 +59,12 @@ public class Book {
     }
 
 
-    public int getUserId() {
-        return user_id;
+    public Person getOwner() {
+        return owner;
     }
 
-    public void setUserId(int userId) {
-        this.user_id = userId;
+    public void setOwner(Person owner) {
+        this.owner = owner;
     }
 
     public int getId() {
@@ -72,5 +97,21 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public Boolean getExpired() {
+        return isExpired;
+    }
+
+    public void setExpired(Boolean expired) {
+        isExpired = expired;
     }
 }

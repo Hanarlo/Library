@@ -6,7 +6,7 @@
 </head>
 <body>
 <a th:text="${book.getName() + ', ' + book.getAuthor() + ', ' + book.getYear()}"></a>
-<div th:if="${book.getUserId() == 0}">
+<div th:if="${book.getOwner() == null}">
     <a>Эта книга свободна, кому назначить ее?</a>
     <form th:method="POST" th:action="@{/books/{id}/link(id=${book.getId()})}">
         <br>
@@ -18,9 +18,9 @@
     </form>
 
 </div>
-<div th:if="${book.getUserId() != 0}">
+<div th:if="${book.getOwner() != null}">
     <p>Книга сейчас у: </p>
-    <p th:text="${personDAO.show(book.getUserId()).getName()}"></p>
+    <p th:text="${book.getOwner().getName()}"></p>
 
     <form th:method="POST" th:action="@{/books/{id}/unlink(id=${book.getId()})}">
         <input type="submit" value="Отвязать книгу">
